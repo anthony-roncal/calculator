@@ -26,9 +26,9 @@ function operate(operator, a, b) {
 }
 
 let displayValue = 0;
-let currentOperation;
+let currentOperation = "";
 const display = document.querySelector('#display-value');
-const numberButtons = document.querySelectorAll('#numbers > button');
+const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(number => number.addEventListener("click", updateDisplay));
 const operatorButtons = document.querySelectorAll('#operators > button');
 operatorButtons.forEach(operator => operator.addEventListener("click", storeValueAndOperator));
@@ -36,20 +36,29 @@ const equalsButton = document.querySelector('#equals');
 equalsButton.addEventListener('click', performOperation);
 const clearButton = document.querySelector('#clear');
 clearButton.addEventListener('click', clear);
+const maxLength = 15;
 
 function updateDisplay(e) {
-    if (display.textContent === "0" && e.target.textContent === "0") {
-        display.textContent = "0";
-    } else if (display.textContent === "0" && e.target.textContent !== "0") {
-        display.textContent = e.target.textContent;
-    }
-    else {
-        display.textContent += e.target.textContent;
+    
+    if(display.textContent.length <= maxLength){
+        if(currentOperation === "equals"){
+            display.textContent = e.target.textContent;
+            currentOperation = "";
+        } else if(display.textContent === "0" && e.target.textContent === "0") {
+            display.textContent = "0";
+        } else if (display.textContent === "0" && e.target.textContent !== "0") {
+            display.textContent = e.target.textContent;
+        }
+        else {
+            display.textContent += e.target.textContent;
+        }
     }
 }
 
 function storeValueAndOperator(e) {
-    displayValue = Number(display.textContent);
+    if(display.textContent !== ""){
+        displayValue = Number(display.textContent);
+    }
     switch (e.target.textContent) {
         case "+": 
             currentOperation = "add";
@@ -71,12 +80,14 @@ function storeValueAndOperator(e) {
 }
 
 function performOperation(e) {
-    display.textContent = operate(currentOperation, displayValue, Number(display.textContent));
-    reset();
+    if(currentOperation !== "") {
+        display.textContent = operate(currentOperation, displayValue, Number(display.textContent));
+        reset();
+    }
 }
 
 function reset() {
-    currentOperation = "";
+    currentOperation = "equals";
     displayValue = 0;
     secondValue = 0;
 }
