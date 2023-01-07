@@ -1,19 +1,3 @@
-/*function add(a, b) {
-    return a + b;
-}
-
-function subtract(a, b) {
-    return a - b;
-}
-
-function multiply(a, b) {
-    return a * b;
-}
-
-function divide(a, b) {
-    return a / b;
-}
-*/
 const operators = {
     add: function(a, b) { return a + b; },
     subtract: function(a, b) { return a - b; },
@@ -89,7 +73,6 @@ function performOperation(e) {
 function reset() {
     currentOperation = "equals";
     displayValue = 0;
-    secondValue = 0;
 }
 
 function clear() {
