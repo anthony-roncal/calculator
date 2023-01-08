@@ -10,7 +10,10 @@ function operate(operator, a, b) {
 }
 
 let displayValue = 0;
+let firstOperand = 0;
+let secondOperand = 0;
 let currentOperation = "";
+let isLastClickNumber = false;
 const display = document.querySelector('#display-value');
 const numberButtons = document.querySelectorAll('.number');
 numberButtons.forEach(number => number.addEventListener("click", updateDisplay));
@@ -23,11 +26,10 @@ clearButton.addEventListener('click', clear);
 const maxLength = 15;
 
 function updateDisplay(e) {
-    
     if(display.textContent.length <= maxLength){
-        if(currentOperation === "equals"){
+        if(isLastClickNumber === false){
             display.textContent = e.target.textContent;
-            currentOperation = "";
+            isLastClickNumber = true;
         } else if(display.textContent === "0" && e.target.textContent === "0") {
             display.textContent = "0";
         } else if (display.textContent === "0" && e.target.textContent !== "0") {
@@ -37,45 +39,58 @@ function updateDisplay(e) {
             display.textContent += e.target.textContent;
         }
     }
+    isLastClickNumber = true;
 }
 
 function storeValueAndOperator(e) {
-    if(display.textContent !== ""){
-        displayValue = Number(display.textContent);
+    if(currentOperation === "" && isLastClickNumber === true) {
+        firstOperand = Number(display.textContent);
+    } else if(currentOperation !== "" && isLastClickNumber === true){
+        secondOperand = Number(display.textContent);
+        calculate();
+    } else if(currentOperation !== "" && isLastClickNumber === false){
+        // don't calculate if user switches between operators
     }
     switch (e.target.textContent) {
         case "+": 
             currentOperation = "add";
-            display.textContent = "";
+            isLastClickNumber = false;
             break;
         case "-": 
             currentOperation = "subtract";
-            display.textContent = "";
+            isLastClickNumber = false;
             break;
         case "x": 
             currentOperation = "multiply";
-            display.textContent = "";
+            isLastClickNumber = false;
             break;
         case "/": 
             currentOperation = "divide";
-            display.textContent = "";
+            isLastClickNumber = false;
             break;
     }
 }
 
-function performOperation(e) {
+function performOperation() {
     if(currentOperation !== "") {
-        display.textContent = operate(currentOperation, displayValue, Number(display.textContent));
-        reset();
+        secondOperand = Number(display.textContent);
+        calculate();
+        currentOperation = "";
     }
 }
 
-function reset() {
-    currentOperation = "equals";
+function clear() {
     displayValue = 0;
+    currentOperation = "";
+    firstOperand = 0;
+    secondOperand = 0;
+    display.textContent = displayValue;
 }
 
-function clear() {
-    reset();
+function calculate() {
+    displayValue = operate(currentOperation, firstOperand, secondOperand);
     display.textContent = displayValue;
+    firstOperand = displayValue;
+    secondOperand = undefined;
+    isLastClickNumber = false;
 }
