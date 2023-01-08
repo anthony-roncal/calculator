@@ -88,7 +88,14 @@ function clear() {
 }
 
 function calculate() {
-    displayValue = operate(currentOperation, firstOperand, secondOperand);
+    if (currentOperation === "divide" && secondOperand === 0) {
+        displayValue = "Cannot divide by 0!";
+    } else {
+        displayValue = operate(currentOperation, firstOperand, secondOperand);
+        if (!Number.isInteger(displayValue)){
+            displayValue = parseFloat((Math.round(displayValue * 10000) / 10000).toFixed(4));
+        }
+    }
     display.textContent = displayValue;
     firstOperand = displayValue;
     secondOperand = undefined;
