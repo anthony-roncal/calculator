@@ -23,11 +23,13 @@ const equalsButton = document.querySelector('#equals');
 equalsButton.addEventListener('click', performOperation);
 const clearButton = document.querySelector('#clear');
 clearButton.addEventListener('click', clear);
+const decimalButton = document.querySelector('.decimal');
+decimalButton.addEventListener("click", addDecimal);
 const maxLength = 15;
 
 function updateDisplay(e) {
     if(display.textContent.length <= maxLength){
-        if(isLastClickNumber === false){
+        if(!isLastClickNumber){
             display.textContent = e.target.textContent;
             isLastClickNumber = true;
         } else if(display.textContent === "0" && e.target.textContent === "0") {
@@ -42,13 +44,23 @@ function updateDisplay(e) {
     isLastClickNumber = true;
 }
 
+function addDecimal(e) {
+    if(!isLastClickNumber) {
+        display.textContent = "0.";
+    }
+    if(!display.textContent.includes(".") && isLastClickNumber) {
+        display.textContent += ".";
+    }
+    isLastClickNumber = true;
+}
+
 function storeValueAndOperator(e) {
-    if(currentOperation === "" && isLastClickNumber === true) {
+    if(currentOperation === "" && isLastClickNumber) {
         firstOperand = Number(display.textContent);
-    } else if(currentOperation !== "" && isLastClickNumber === true){
+    } else if(currentOperation !== "" && isLastClickNumber){
         secondOperand = Number(display.textContent);
         calculate();
-    } else if(currentOperation !== "" && isLastClickNumber === false){
+    } else if(currentOperation !== "" && !isLastClickNumber){
         // don't calculate if user switches between operators
     }
     switch (e.target.textContent) {

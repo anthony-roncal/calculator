@@ -60,6 +60,10 @@ button {
 }
 
 .number {
+    flex: 6;
+}
+
+.decimal {
     flex: 1;
 }
 
