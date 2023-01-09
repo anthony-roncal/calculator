@@ -133,7 +133,6 @@ function calculate() {
 }
 
 document.onkeydown = function(e) {
-    console.log(e.key);
     if(isFinite(e.key) && e.key !== " ") {
         updateDisplay(e.key);
     } else {
