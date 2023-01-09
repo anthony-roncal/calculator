@@ -1,72 +1,116 @@
 body {
     display: flex;
     flex-direction: column;
+    background-color: #202020;
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    color: #F0F0F0;
 }
 
 .content {
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
+    justify-content: center;
 }
 
 #calculator-frame {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     border: solid 1px black;
     padding: 20px;
-    width: 180px;
-    height: 250px;
+    width: 275px;
+    height: 350px;
+    border-radius: 3px;
+    background-color: #303030;
 }
 
 #calculator-display {
     display: flex;
+    flex: 1;
+    align-self: stretch;
     flex-direction: row-reverse;
     align-items: center;
     border: solid 1px black;
-    height: 40px;
+    height: 50px;
     padding-right: 10px;
+    font-size: 30px;
+    border-radius: 3px;
+    background-color: #202020;
+    color: #F0F0F0;
 }
 
 #calculator-buttons {
     margin-top: 20px;
     display: flex;
+    background-color: #303030;
 }
 
 #numbers {
+    flex: 5;
     display: flex;
     flex-direction: column-reverse;
-    gap: 5px;
-    margin-right: 5px;
+    gap: 3px;
+    margin-right: 3px;
 }
 
 #operators,
 #special {
+    flex: 2;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 3px;
 }
 
 #operators {
-    margin-right: 5px;
+    margin-right: 3px;
 }
 
 .row {
     display: flex;
-    gap: 5px;
+    gap: 3px;
+}
+
+#numbers button {
+    background-color: #606060;
 }
 
 button {
-    padding: 10px;
+    padding: 15px;
+    font-size: 30px;
+    color: #F0F0F0;
+    background-color: #454545;
+    border: solid black;
 }
 
 .number {
-    flex: 6;
+    flex: 4;
 }
 
 .decimal {
     flex: 1;
 }
 
-#equals {
+#clear,
+#backspace {
     flex: 1;
+    padding: 14.5px;
+}
+
+#equals {
+    flex: 10;
+}
+
+#numbers button:hover,
+button:hover {
+    background-color: #202020;
+}
+
+#numbers button:active,
+button:active {
+    background-color: #101010;
+    transform:scale(1.05);
+    border: solid grey;
 }
