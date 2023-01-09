@@ -13,6 +13,7 @@ let displayValue = 0;
 let firstOperand = 0;
 let secondOperand = 0;
 let currentOperation = "";
+const maxLength = 15;
 let isLastClickNumber = false;
 const display = document.querySelector('#display-value');
 const numberButtons = document.querySelectorAll('.number');
@@ -24,8 +25,9 @@ equalsButton.addEventListener('click', performOperation);
 const clearButton = document.querySelector('#clear');
 clearButton.addEventListener('click', clear);
 const decimalButton = document.querySelector('.decimal');
-decimalButton.addEventListener("click", addDecimal);
-const maxLength = 15;
+decimalButton.addEventListener('click', addDecimal);
+const backspaceButton = document.querySelector('#backspace');
+backspaceButton.addEventListener('click', backspace);
 
 function updateDisplay(e) {
     if(display.textContent.length <= maxLength){
@@ -97,6 +99,14 @@ function clear() {
     firstOperand = 0;
     secondOperand = 0;
     display.textContent = displayValue;
+}
+
+function backspace() {
+    if (display.textContent.length > 1 && isLastClickNumber) {
+        display.textContent = display.textContent.slice(0, display.textContent.length-1);
+    } else if (display.textContent.length === 1 && isLastClickNumber) {
+        display.textContent = 0;
+    }
 }
 
 function calculate() {
