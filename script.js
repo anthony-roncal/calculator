@@ -17,9 +17,9 @@ const maxLength = 15;
 let isLastClickNumber = false;
 const display = document.querySelector('#display-value');
 const numberButtons = document.querySelectorAll('.number');
-numberButtons.forEach(number => number.addEventListener('click', updateDisplay));
+numberButtons.forEach(number => number.addEventListener('click', numberPressed));
 const operatorButtons = document.querySelectorAll('#operators > button');
-operatorButtons.forEach(operator => operator.addEventListener("click", storeValueAndOperator));
+operatorButtons.forEach(operator => operator.addEventListener("click", operatorPressed));
 const equalsButton = document.querySelector('#equals');
 equalsButton.addEventListener('click', performOperation);
 const clearButton = document.querySelector('#clear');
@@ -29,24 +29,32 @@ decimalButton.addEventListener('click', addDecimal);
 const backspaceButton = document.querySelector('#backspace');
 backspaceButton.addEventListener('click', backspace);
 
-function updateDisplay(e) {
+function numberPressed(e) {
+    updateDisplay(e.target.textContent);
+}
+
+function operatorPressed(e) {
+    storeValueAndOperator(e.target.textContent);
+}
+
+function updateDisplay(value) {
     if(display.textContent.length <= maxLength){
         if(!isLastClickNumber){
-            display.textContent = e.target.textContent;
+            display.textContent = value;
             isLastClickNumber = true;
-        } else if(display.textContent === "0" && e.target.textContent === "0") {
+        } else if(display.textContent === "0" && value === "0") {
             display.textContent = "0";
-        } else if (display.textContent === "0" && e.target.textContent !== "0") {
-            display.textContent = e.target.textContent;
+        } else if (display.textContent === "0" && value !== "0") {
+            display.textContent = value;
         }
         else {
-            display.textContent += e.target.textContent;
+            display.textContent += value;
         }
     }
     isLastClickNumber = true;
 }
 
-function addDecimal(e) {
+function addDecimal() {
     if(!isLastClickNumber) {
         display.textContent = "0.";
     }
@@ -56,7 +64,7 @@ function addDecimal(e) {
     isLastClickNumber = true;
 }
 
-function storeValueAndOperator(e) {
+function storeValueAndOperator(operator) {
     if(currentOperation === "" && isLastClickNumber) {
         firstOperand = Number(display.textContent);
     } else if(currentOperation !== "" && isLastClickNumber){
@@ -65,7 +73,7 @@ function storeValueAndOperator(e) {
     } else if(currentOperation !== "" && !isLastClickNumber){
         // don't calculate if user switches between operators
     }
-    switch (e.target.textContent) {
+    switch (operator) {
         case "+": 
             currentOperation = "add";
             isLastClickNumber = false;
@@ -122,4 +130,41 @@ function calculate() {
     firstOperand = displayValue;
     secondOperand = undefined;
     isLastClickNumber = false;
+}
+
+document.onkeydown = function(e) {
+    console.log(e.key);
+    if(isFinite(e.key) && e.key !== " ") {
+        updateDisplay(e.key);
+    } else {
+        switch (e.key) {
+            case "+":
+                storeValueAndOperator("+");
+                break;
+            case "-":
+                storeValueAndOperator("-");
+                break;
+            case "*":
+                storeValueAndOperator("x");
+                break;
+            case "x":
+                storeValueAndOperator("x");
+                break;
+            case "/":
+                storeValueAndOperator("/");
+                break;
+            case ".":
+                addDecimal();
+                break;
+            case "Backspace":
+                backspace();
+                break;
+            case "Enter":
+                performOperation();
+                break;
+            case "=":
+                performOperation();
+                break;
+        }
+    }
 }
