@@ -1,3 +1,3 @@
 # odin-calculator
 
-This creates a web calculator for The Odin Project.
+This is a practice project for The Odin Project: Calculator.
