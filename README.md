@@ -1,3 +1,3 @@
-# odin-calculator
+# calculator
 
-This is a practice project for The Odin Project: Calculator.
+View app at: https://anthony-roncal.github.io/calculator/
